@@ -3,8 +3,9 @@ version: '3'
 services:
   web:
     container_name: magento2web
+    hostname: magento2web
     restart: always
-    build: .
+    image: docker.sparta.corp.magento.com:5000/m2:web71
     environment:
       - PHP_IDE_CONFIG=serverName=PHPSTORM
       - BLACKFIRE_CLIENT_ID
@@ -14,12 +15,14 @@ services:
       - "443:443"
       - "2222:22"
     volumes:
+      - ~/:/home/magento
       - src-volume:/var/www/html
-      - src-composer-cache-volume:/root/.composer/cache
+      - src-composer-cache-volume:/home/magento/.composer/cache
     cap_add:
       - "SYS_PTRACE"
   db:
     container_name: magento2db
+    hostname: magento2db
     image: mysql:5.7
     restart: always
     environment:
@@ -31,7 +34,6 @@ services:
       - "3306:3306"
     volumes:
       - "./etc/mysql:/etc/mysql/conf.d"
-      - db-volume:/var/lib/mysql
   blackfire:
     image: blackfire/blackfire
     environment:
@@ -39,5 +41,4 @@ services:
         - BLACKFIRE_SERVER_TOKEN
 volumes:
   src-volume:
-  db-volume:
   src-composer-cache-volume:
