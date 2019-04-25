@@ -23,7 +23,7 @@ services:
   db:
     container_name: magento2db
     hostname: magento2db
-    image: mysql:5.7
+    image: docker.sparta.corp.magento.com:5000/m2:magento2db
     restart: always
     environment:
       MYSQL_DATABASE: magento
